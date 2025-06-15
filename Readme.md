@@ -10,6 +10,14 @@
 
 ---
 
+## 🙏 Acknowledgements (Before you go further, please read this)
+
+This project was heavily inspired by the great structure and clarity of [@a7urag](https://github.com/a7urag)'s repository:
+
+- ⭐️ [`node-express-mysql-typescript-api-boilerplate`](https://github.com/a7urag/node-express-mysql-typescript-api-boilerplate)
+
+A huge thanks for setting such a great reference point for writing clean, scalable backend architecture using TypeScript, Express, and TypeORM.
+
 ## ✨ Why TinyLink?
 
 Because long URLs are boring.
