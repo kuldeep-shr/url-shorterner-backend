@@ -1,5 +1,4 @@
 import httpStatusCodes from "http-status-codes";
-
 import constants from "../constants";
 import locale from "../constants/locale";
 import IController from "../../types/IController";

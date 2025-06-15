@@ -10,7 +10,7 @@ import indexRoute from "../routes/index.route";
 
 // import authenticate from "../middlewares/authenticate";
 // import joiErrorHandler from "../middlewares/joiErrorHandler";
-// import * as errorHandler from "../middlewares/apiErrorHandler";
+import * as errorHandler from "../middlewares/apiErrorHandler";
 
 const app = express();
 
@@ -27,8 +27,8 @@ app.use(application.url.base, indexRoute);
 // Joi Error Handler
 // app.use(joiErrorHandler);
 // Error Handler
-// app.use(errorHandler.notFoundErrorHandler);
+app.use(errorHandler.notFoundErrorHandler);
 
-// app.use(errorHandler.errorHandler);
+app.use(errorHandler.errorHandler);
 
 export default app;

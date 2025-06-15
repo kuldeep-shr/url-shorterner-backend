@@ -3,7 +3,7 @@ import { AppDataSource } from "../../ormconfig";
 import { User } from "../../entities/user/User";
 import { sanitizeUser } from "../utilities/ApiUtilities";
 import { generateHash, verifyHash } from "../utilities/encryptionUtils";
-
+import { createToken, verifyToken } from "../middlewares/authenticate";
 // const getUserById = async (userId: number) => {
 //   try {
 //     return sanitizeUser(
@@ -29,7 +29,15 @@ const createUser = async (email: string, pass: string, name: string = "") => {
   newUser.email = email;
   newUser.password = await generateHash(pass, 10);
   newUser.name = name;
-  return sanitizeUser(await AppDataSource.getRepository(User).save(newUser));
+  const saveUser: any = await AppDataSource.getRepository(User).save(newUser);
+  const generateToken = createToken({
+    id: saveUser.id,
+    name: name,
+    email: email,
+  });
+  saveUser["token"] = generateToken;
+  saveUser["token_validity"] = "1day";
+  return sanitizeUser(saveUser);
 };
 
 const updateUser = async (user: User) => {
@@ -37,11 +45,18 @@ const updateUser = async (user: User) => {
 };
 
 const loginUser = async (email: string, password: string) => {
-  const user = await getUserByEmail(email, true);
+  const user: any = await getUserByEmail(email, true);
   if (user) {
     if (await verifyHash(password, user.password)) {
+      const generateToken = createToken({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      });
       user.lastLogin = new Date().getTime().toString();
-      updateUser(user); // save user login time
+      user["token"] = generateToken;
+      user["token_validity"] = "1day";
+      updateUser(user);
       return sanitizeUser(user);
     }
   }

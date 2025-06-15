@@ -12,8 +12,8 @@ import { UrlAccessLog } from "../url/UrlAccessLog";
 
 @Entity("short_urls")
 export class ShortUrl extends DateTimeEntity {
-  @PrimaryGeneratedColumn()
-  id!: number;
+  @PrimaryGeneratedColumn("uuid")
+  id!: string;
 
   @ManyToOne(() => User, (user: any) => user.shortUrls, { onDelete: "CASCADE" })
   user!: User;

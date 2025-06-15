@@ -9,8 +9,8 @@ import { ShortUrl } from "./ShortUrl";
 
 @Entity("url_access_logs")
 export class UrlAccessLog {
-  @PrimaryGeneratedColumn()
-  id!: number;
+  @PrimaryGeneratedColumn("uuid")
+  id!: string;
 
   @ManyToOne(() => ShortUrl, (shortUrl) => shortUrl.accessLogs)
   shortUrl!: ShortUrl;

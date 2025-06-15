@@ -21,14 +21,23 @@ export const shortenUrl = async ({
   const userRepo = AppDataSource.getRepository(User);
 
   const user = await userRepo.findOneBy({ id: user_id });
-  console.log("user", user);
   if (!user) throw new Error("User not found");
 
   const short_code: any = custom_alias?.trim() || (await generateShortCode());
   if (!short_code) throw new Error("Short code could not be generated");
 
+  const existingUrl = await urlRepo.findOneBy({ original_url: original_url });
+
+  if (existingUrl) {
+    return {
+      isNew: false,
+      message: "Short URL already exists for this long URL",
+      short_code: existingUrl.short_code,
+      short_url: `http://localhost:8000/${existingUrl.short_code}`,
+    };
+  }
+
   const exists = await urlRepo.findOneBy({ short_code: short_code });
-  console.log("exists url", exists, "short", short_code);
   if (exists) throw new Error("Short code already exists");
 
   const newUrl = new ShortUrl();
@@ -42,6 +51,7 @@ export const shortenUrl = async ({
     newUrl.expires_at = expiry;
   }
 
-  const saved = await urlRepo.save(newUrl);
+  const saved: any = await urlRepo.save(newUrl);
+  saved.isNew = true;
   return saved;
 };
