@@ -3,7 +3,7 @@ import { DateTimeEntity } from "../base/timestamp";
 
 @Entity("user_auth", { orderBy: { id: "ASC" } })
 export class User extends DateTimeEntity {
-  @PrimaryGeneratedColumn({ type: "bigint" })
+  @PrimaryGeneratedColumn("uuid")
   id!: number;
 
   @Column()
