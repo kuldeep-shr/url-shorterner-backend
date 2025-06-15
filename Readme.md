@@ -31,6 +31,52 @@ This project gives you a ready-to-roll backend for a URL shortener service, incl
 
 ---
 
+<br />
+
+## 🔗 URL Shortening Strategy: KGS (Key Generation Service)
+
+### ✅ Why We Chose the KGS Approach
+
+Our URL shortener uses the **Key Generation Service (KGS)** technique to create short, unique codes for long URLs. After reading throughly article for techniques like Base62 counters, MD5 hashing, and random generation, I chose KGS for its **simplicity, high performance, and scalability**.
+
+This decision is inspired by the excellent system design breakdown in this Medium article:
+👉 [Scalable URL Shortener System Design – by Sandeep Verma](https://medium.com/@sandeep4.verma/system-design-scalable-url-shortener-service-like-tinyurl-106f30f23a82)
+
+---
+
+### 🧠 What is KGS?
+
+KGS is a service responsible for **pre-generating a large pool of unique short keys** (e.g., 7-character Base62 strings like `a9ZxP1Q`) and storing them in a database. Whenever a new URL needs to be shortened, an unused key is picked, marked as used, and mapped to the long URL.
+
+---
+
+### 📊 Comparison with Other Techniques
+
+| Technique             | Pros                                               | Cons                                                        |
+| --------------------- | -------------------------------------------------- | ----------------------------------------------------------- |
+| **Base62 Counter**    | Simple, deterministic                              | Requires coordination and partitioning in distributed setup |
+| **MD5 Hashing**       | Easy to implement, no extra counter or key service | Hash collisions possible; retry logic needed                |
+| **Random Generation** | No need for counter or hash                        | Frequent DB lookups for collision detection                 |
+| **🔑 KGS (Our Pick)** | Fast, collision-free, easy to scale                | Needs upfront key generation and duplicate handling         |
+
+---
+
+### 🚀 Why KGS?
+
+- ✅ **No Collisions:** Keys are unique and pre-validated.
+- ⚡ **Fast:** No need to check DB repeatedly for duplicates.
+- 📦 **Cache Friendly:** Frequently used short URLs can be cached (e.g., using Redis).
+- 🧩 **Custom Alias Support:** Easily handles custom user-defined short codes (up to 16 characters).
+- 🔄 **Concurrency Safe:** Can be designed with locking or atomic marking.
+
+---
+
+### 🛠️ How Our KGS Works
+
+Please go through above medium article link
+
+---
+
 ## 🏗️ Built With
 
 - ⚡ [Express](https://expressjs.com/) – Fast, unopinionated web framework

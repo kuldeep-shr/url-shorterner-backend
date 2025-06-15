@@ -22,7 +22,8 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "test": "jest --detectOpenHandles --forceExit",
-    "init-db": "ts-node src/scripts/init-db.ts"
+    "init-db": "ts-node src/scripts/init-db.ts",
+    "generate-keys": "ts-node src/scripts/generateKeys.ts"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
