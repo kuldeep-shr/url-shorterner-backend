@@ -49,4 +49,20 @@ const verifyCookie = async (token: string): Promise<any> =>
     );
   });
 
-export { generateHash, verifyHash, generateCookie, verifyCookie };
+const generateShortCode = async (length: number = 6): Promise<string> => {
+  const chars =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result || "defaultCode";
+};
+
+export {
+  generateHash,
+  verifyHash,
+  generateCookie,
+  verifyCookie,
+  generateShortCode,
+};

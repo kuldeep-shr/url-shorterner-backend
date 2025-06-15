@@ -1,9 +1,13 @@
 import express from "express";
 const morgan = require("morgan");
 import * as bodyParser from "body-parser";
-
-import indexRoute from "../routes/index.route";
 import application from "../constants/application";
+
+/*
+    all routes
+*/
+import indexRoute from "../routes/index.route";
+
 // import authenticate from "../middlewares/authenticate";
 // import joiErrorHandler from "../middlewares/joiErrorHandler";
 // import * as errorHandler from "../middlewares/apiErrorHandler";
