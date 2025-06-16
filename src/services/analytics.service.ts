@@ -1,55 +1,69 @@
 import { AppDataSource } from "../../ormconfig";
-import { UrlAccessLog } from "../../entities/url/UrlAccessLog";
-import { ShortUrl } from "../../entities/url/ShortUrl";
 
 export const getAnalyticsData = async (short_code: string) => {
-  const shortUrlRepo = AppDataSource.getRepository(ShortUrl);
-  const logRepo = AppDataSource.getRepository(UrlAccessLog);
+  const db = AppDataSource.manager;
 
-  const shortUrl: any = await shortUrlRepo.findOneBy({ short_code });
-  if (!shortUrl) throw new Error("Short URL not found");
+  try {
+    // Step 1: Get short URL details
+    const shortUrl = await db.query(
+      `SELECT id FROM short_urls WHERE short_code = $1 LIMIT 1`,
+      [short_code]
+    );
 
-  const shortUrlId = shortUrl.id;
+    if (!shortUrl.length) {
+      throw new Error("Short URL not found");
+    }
 
-  const [totalRedirects, lastAccesses, referrerStats, countryStats] =
-    await Promise.all([
-      // Total number of visits
-      logRepo.count({ where: { shortUrlId } }),
+    const shortUrlId = shortUrl[0].id;
 
-      // Last 5 access timestamps
-      logRepo.find({
-        where: { shortUrlId },
-        order: { accessed_at: "DESC" },
-        take: 5,
-        select: ["accessed_at"],
-      }),
+    // Step 2: Fetch all 4 analytics in parallel calls
+    const [totalRedirects, lastAccesses, referrerStats, countryStats] =
+      await Promise.all([
+        // Total redirects count
+        db.query(
+          `SELECT COUNT(*)::INT as total FROM url_access_logs WHERE short_url_id = $1`,
+          [shortUrlId]
+        ),
 
-      // Referrer breakdown
-      logRepo
-        .createQueryBuilder("log")
-        .select("log.referrer", "referrer")
-        .addSelect("COUNT(*)", "count")
-        .where("log.shortUrlId = :id", { id: shortUrlId })
-        .groupBy("log.referrer")
-        .orderBy("count", "DESC")
-        .getRawMany(),
+        // Last 5 access timestamps
+        db.query(
+          `SELECT accessed_at FROM url_access_logs
+           WHERE short_url_id = $1
+           ORDER BY accessed_at DESC
+           LIMIT 5`,
+          [shortUrlId]
+        ),
 
-      // Country/IP breakdown
-      logRepo
-        .createQueryBuilder("log")
-        .select("log.country", "country")
-        .addSelect("COUNT(*)", "count")
-        .where("log.shortUrlId = :id", { id: shortUrlId })
-        .groupBy("log.country")
-        .orderBy("count", "DESC")
-        .getRawMany(),
-    ]);
+        // Referrer stats
+        db.query(
+          `SELECT referrer, COUNT(*)::INT as count
+           FROM url_access_logs
+           WHERE short_url_id = $1
+           GROUP BY referrer
+           ORDER BY count DESC`,
+          [shortUrlId]
+        ),
 
-  return {
-    short_code,
-    total_redirects: totalRedirects,
-    last_accesses: lastAccesses.map((entry) => entry.accessed_at),
-    referrer_stats: referrerStats,
-    country_stats: countryStats,
-  };
+        // Country stats
+        db.query(
+          `SELECT country, COUNT(*)::INT as count
+           FROM url_access_logs
+           WHERE short_url_id = $1
+           GROUP BY country
+           ORDER BY count DESC`,
+          [shortUrlId]
+        ),
+      ]);
+
+    return {
+      short_code,
+      total_redirects: totalRedirects[0]?.total || 0,
+      last_accesses: lastAccesses.map((row: any) => row.accessed_at),
+      referrer_stats: referrerStats,
+      country_stats: countryStats,
+    };
+  } catch (err: any) {
+    console.error("Error getting analytics:", err.message);
+    throw new Error("Failed to fetch analytics data");
+  }
 };

@@ -4,20 +4,27 @@ import {
   Column,
   CreateDateColumn,
   ManyToOne,
+  JoinColumn,
+  Index,
 } from "typeorm";
 import { ShortUrl } from "./ShortUrl";
 import { DateTimeEntity } from "../base/timestamp";
 
+//indexing for better performance
 @Entity("url_access_logs")
+@Index("idx_short_url_id", ["shortUrl"])
+@Index("idx_referrer", ["referrer"])
+@Index("idx_country", ["country"])
+@Index("idx_accessed_at", ["accessed_at"])
 export class UrlAccessLog extends DateTimeEntity {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @ManyToOne(() => ShortUrl, (shortUrl) => shortUrl.accessLogs)
+  @ManyToOne(() => ShortUrl, (shortUrl) => shortUrl.accessLogs, {
+    onDelete: "CASCADE",
+  })
+  @JoinColumn({ name: "short_url_id" })
   shortUrl!: ShortUrl;
-
-  @Column()
-  shortUrlId!: number;
 
   @CreateDateColumn()
   accessed_at!: Date;

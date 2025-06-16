@@ -12,4 +12,6 @@ export const AppDataSource = new DataSource({
   url: process.env.DATABASE_URL,
   entities: [User, ShortUrl, UrlAccessLog, KGSKey],
   synchronize: true,
+  logging: true,
+  logger: "advanced-console",
 });

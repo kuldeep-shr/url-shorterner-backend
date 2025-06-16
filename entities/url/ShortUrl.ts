@@ -4,6 +4,7 @@ import {
   Column,
   ManyToOne,
   OneToMany,
+  Index,
 } from "typeorm";
 import { User } from "../user/User";
 import { DateTimeEntity } from "../base/timestamp";
@@ -11,6 +12,9 @@ import { DateTimeEntity } from "../base/timestamp";
 import { UrlAccessLog } from "../url/UrlAccessLog";
 
 @Entity("short_urls")
+@Index("idx_user_id", ["user"])
+@Index("idx_short_code", ["short_code"])
+@Index("idx_expires_at", ["expires_at"])
 export class ShortUrl extends DateTimeEntity {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
@@ -24,7 +28,7 @@ export class ShortUrl extends DateTimeEntity {
   @Column({ unique: true, nullable: true })
   short_code!: string;
 
-  @Column({ nullable: true })
+  @Column({ unique: true, nullable: true })
   custom_alias!: string;
 
   @Column({ nullable: true, type: "timestamp" })
