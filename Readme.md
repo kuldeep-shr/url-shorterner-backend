@@ -125,17 +125,19 @@ yarn start
 
     🔌 For Available APIs
 
-    | Method | Endpoint                | Description           |
-    | ------ | ----------------------- | --------------------- |
-    | POST   | `/api/v1/auth/register` | Register a new user & token   |
-    | POST   | `/api/v1/auth/login`    | Login & get JWT token |
+
+    | Method | Endpoint                | Description                    |
+    |--------|-------------------------|--------------------------------|
+    | POST   | `/api/v1/auth/register` | Register a new user & token    |
+    | POST   | `/api/v1/auth/login`    | Login & get JWT token          |
 
     ✂️ URL Shortening
 
-    | Method | Endpoint          | Description                       |
-    | ------ | ----------------- | --------------------------------- |
-    | POST   | `/api/url/shorten` | Shorten a URL (JWT required)      |
-    | GET    | `api/url/:code`   | Redirect to the original long URL |
+    | Method | Endpoint                    | Description                                         |
+    |--------|-----------------------------|-----------------------------------------------------|
+    | POST   | `/api/url/shorten`          | Shorten a URL (JWT required)                        |
+    | GET    | `/api/url/:code`            | Redirect to the original long URL                  |
+    | GET    | `/api/url/analytics/:code`  | 📊 Get analytics data for a short URL (JWT required) |
 
 <br />
 
