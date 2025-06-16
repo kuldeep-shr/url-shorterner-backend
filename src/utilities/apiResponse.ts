@@ -48,4 +48,12 @@ export default class ApiResponse {
   static redirect = (res: Response, url: string, status: number = 302) => {
     res.redirect(status, url);
   };
+  static render = (
+    res: Response,
+    view: string,
+    params?: object,
+    status: number = 200
+  ) => {
+    res.status(status).render(view, params);
+  };
 }

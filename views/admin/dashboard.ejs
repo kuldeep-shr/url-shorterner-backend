@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/dashboard.css" />
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <h1>📊 Admin Dashboard</h1>
+
+      <% if (error) { %>
+      <p class="error"><%= error %></p>
+      <% } %> <% if (stats) { %>
+      <div class="stats-grid">
+        <div class="stat-card users">
+          <h3>Total Users</h3>
+          <p><%= stats.users %></p>
+        </div>
+        <div class="stat-card urls">
+          <h3>Total URLs</h3>
+          <p><%= stats.urls %></p>
+        </div>
+        <div class="stat-card redirects">
+          <h3>Total Redirects</h3>
+          <p><%= stats.totalRedirects %></p>
+        </div>
+      </div>
+      <% } %>
+
+      <h2>🔥 Top Shortened URLs</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Short Code</th>
+              <th>Original URL</th>
+              <th>Redirects</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% topUrls.forEach((url, index) => { %>
+            <tr>
+              <td><%= index + 1 %></td>
+              <td><%= url.code %></td>
+              <td>
+                <a href="<%= url.original %>" target="_blank"
+                  ><%= url.original %></a
+                >
+              </td>
+              <td><%= url.clicks %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,8 +1,10 @@
 const base: string = "/api";
+const adminBase: string = "/admin";
 
 export default {
   url: {
     base,
+    adminBase,
   },
   timers: {
     userCookieExpiry: "720h",
@@ -13,5 +15,6 @@ export default {
   authorizationIgnorePath: [
     `${base}/user/auth/login`,
     `${base}/user/auth/register`,
+    `${adminBase}/dashboard`, // Allow dashboard viewing without auth (if public)
   ],
 };
