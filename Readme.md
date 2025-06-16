@@ -105,8 +105,9 @@ Create a `.env` file in the root directory and add the following variables:
 
 ```
 clone the repository
-run `yarn run init-db`
-run `yarn run generate-keys`
+run `yarn run init-db` (for initialize the tables)
+run `yarn run generate-keys` (it will generate all keys to be use for short urls)
+run `yarn run truncate-db` (it will clean all the data inside the tables)
 yarn install
 yarn watch-ts
 ```
@@ -122,6 +123,12 @@ yarn build
 # Run the app
 yarn start
 
+```
+
+## 🧯 For Test Cases
+
+```
+yarn test
 ```
 
 ## 🔌 Available APIs
