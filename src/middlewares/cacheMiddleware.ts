@@ -30,7 +30,8 @@ export const redisMemoMiddleware = async (
   try {
     const cached = await getCache(key);
     if (cached) {
-      return apiResponse.result(res, cached, httpStatusCodes.OK);
+      console.log("cached", cached);
+      return apiResponse.result(res, cached.data, httpStatusCodes.OK);
     }
 
     const originalJson = res.json.bind(res);

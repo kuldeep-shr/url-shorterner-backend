@@ -3,7 +3,8 @@ import Redis from "ioredis";
 const redisClient = new Redis();
 
 export const getCache = async (key: string): Promise<any | null> => {
-  const data = await redisClient.get(key);
+  const data: any = await redisClient.get(key);
+  console.log("da", data);
   return data ? JSON.parse(data) : null;
 };
 

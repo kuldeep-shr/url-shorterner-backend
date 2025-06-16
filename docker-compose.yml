@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  # Application Service
+  app:
+    image: tinylink_app
+    container_name: tinylink_app
+    restart: always
+    ports:
+      - "8000:8000"
+      - PORT=8000
+      - JWT_SECRET=change_this_super_secret_key_in_production
+      - DATABASE_URL=postgres://user123:password123@db:5432/tinylink
+      - NODE_ENV=development
+    depends_on:
+      - db
+
+  # Database Service
+  db:
+    image: postgres
+    container_name: tinylink_db
+    restart: always
+    environment:
+      - POSTGRES_USER=user123
+      - POSTGRES_PASSWORD=password123
+      - POSTGRES_DB=tinylink
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+volumes:
+  postgres_data:
+    driver: local
