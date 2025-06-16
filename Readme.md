@@ -105,6 +105,8 @@ Create a `.env` file in the root directory and add the following variables:
 
 ```
 clone the repository
+run `yarn run init-db`
+run `yarn run generate-keys`
 yarn install
 yarn watch-ts
 ```
