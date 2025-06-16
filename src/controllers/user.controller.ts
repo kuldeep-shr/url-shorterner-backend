@@ -15,7 +15,7 @@ const login: IController = async (req, res) => {
   } else {
     apiResponse.error(
       res,
-      httpStatusCodes.BAD_REQUEST,
+      httpStatusCodes.BAD_GATEWAY,
       locale.INVALID_CREDENTIALS
     );
   }
@@ -42,7 +42,7 @@ const register: IController = async (req, res) => {
   if (user) {
     apiResponse.result(res, user, httpStatusCodes.CREATED);
   } else {
-    apiResponse.error(res, httpStatusCodes.BAD_REQUEST);
+    apiResponse.error(res, httpStatusCodes.BAD_GATEWAY);
   }
 };
 

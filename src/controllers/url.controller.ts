@@ -29,7 +29,7 @@ const handleShortenUrl: IController = async (req, res) => {
       result.isNew ? "your url is ready" : result.message
     );
   } catch (err: any) {
-    apiResponse.error(res, httpStatusCodes.BAD_REQUEST, "something went wrong");
+    apiResponse.error(res, httpStatusCodes.BAD_GATEWAY, "Something went wrong");
   }
 };
 

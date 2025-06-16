@@ -6,14 +6,18 @@ import {
   ManyToOne,
 } from "typeorm";
 import { ShortUrl } from "./ShortUrl";
+import { DateTimeEntity } from "../base/timestamp";
 
 @Entity("url_access_logs")
-export class UrlAccessLog {
+export class UrlAccessLog extends DateTimeEntity {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
   @ManyToOne(() => ShortUrl, (shortUrl) => shortUrl.accessLogs)
   shortUrl!: ShortUrl;
+
+  @Column()
+  shortUrlId!: number;
 
   @CreateDateColumn()
   accessed_at!: Date;

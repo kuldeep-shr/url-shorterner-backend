@@ -1,7 +1,7 @@
 import { AppDataSource } from "../../ormconfig";
 import { KGSKey } from "../../entities/url/Kgs";
 
-const generateRandomCode = (length = 6): string => {
+const generateRandomCode = (length = 7): string => {
   const chars =
     "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
   let result = "";

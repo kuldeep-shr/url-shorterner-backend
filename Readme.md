@@ -91,7 +91,7 @@ Please go through above medium article link
 
 Create a `.env` file in the root directory and add the following variables:
 
-`PORT:`whatever you prefer but not 3000(it doesn't suits us 😆)
+`PORT:`whatever you prefer but not 3000(it doesn't suit us 😆)
 
 `JWT_SECRET:` your_super_secret_key
 
