@@ -1,28 +1,55 @@
-import rateLimit from "express-rate-limit";
-import { Request } from "express";
+import { Request, Response, NextFunction } from "express";
+import redisClient from "../config/redisClient";
+import httpstatuscodes from "http-status-codes";
 
-// Rate limiter: 10 requests per 1 minute per user/UUID/IP
-export const rateLimiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
-  max: 10,
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: {
-    status: 429,
-    error: "Too many requests. Please try again after a minute.",
-  },
-  keyGenerator: (req: Request): string => {
-    // Authenticated user
-    if (req.user?.id && !req.user?.isAnonymous) {
-      return `user_${req.user.id}`;
+const WINDOW_SECONDS = 60;
+
+const RATE_LIMITS = {
+  authenticated: 2,
+  anonymous: 1,
+};
+
+export const customRateLimiter = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
+  try {
+    console.log("middle-3");
+    const userId = (req as any).user?.id;
+    const identifier = userId ? `user:${userId}` : `ip:${req.ip}`;
+    console.log("Rate limiter identifier:", identifier);
+
+    const key = `rate_limit:${identifier}`;
+
+    const maxRequests = userId
+      ? RATE_LIMITS.authenticated
+      : RATE_LIMITS.anonymous;
+
+    const current = await redisClient.incr(key);
+    console.log("Rate limiter current count:", current);
+
+    if (current === 1) {
+      await redisClient.expire(key, WINDOW_SECONDS);
     }
 
-    // Anonymous user with UUID-based JWT
-    if (req.user?.id && req.user?.isAnonymous) {
-      return `anon_${req.user.id}`;
+    if (current > maxRequests) {
+      return res.status(httpstatuscodes.TOO_MANY_REQUESTS).json({
+        success: false,
+        error: {
+          message: `⏳ Rate limit exceeded. You are allowed ${maxRequests} requests per ${WINDOW_SECONDS} seconds.`,
+        },
+      });
     }
 
-    // Fallback: IP-based limiting
-    return `ip_${req.ip}`;
-  },
-});
+    next();
+  } catch (err) {
+    console.error("Rate limiter error:", err);
+    return res.status(httpstatuscodes.BAD_GATEWAY).json({
+      success: false,
+      error: {
+        message: "Internal Server Error",
+      },
+    });
+  }
+};

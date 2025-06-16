@@ -1,7 +1,7 @@
 import express from "express";
 
 import { authenticateToken } from "../../middlewares/authenticate";
-import { rateLimiter } from "../../middlewares/rateLimiter";
+import { customRateLimiter } from "../../middlewares/rateLimiter";
 import { redisMemoMiddleware } from "../../middlewares/cacheMiddleware";
 
 import urlController from "../../controllers/url.controller";
@@ -15,7 +15,7 @@ const router = express.Router();
 router.post(
   "/shorten",
   authenticateToken,
-  rateLimiter,
+  customRateLimiter,
   urlController.handleShortenUrl
 );
 
@@ -23,14 +23,14 @@ router.get(
   "/:code",
   redisMemoMiddleware,
   authenticateToken,
-  rateLimiter,
+  customRateLimiter,
   redirectUrlController.redirectToOriginal
 );
 router.get(
   "/analytics/:code",
   redisMemoMiddleware,
   authenticateToken,
-  rateLimiter,
+  customRateLimiter,
   analyticsUrlController.getAnalytics
 );
 

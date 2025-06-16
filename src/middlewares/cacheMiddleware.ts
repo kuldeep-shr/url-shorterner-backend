@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { getCache, setCache } from "../utilities/cache";
+import { getCache, setCache } from "../config/redisClient";
 import apiResponse from "../utilities/apiResponse";
 import httpStatusCodes from "http-status-codes";
 import crypto from "crypto";
@@ -21,7 +21,7 @@ export const redisMemoMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<any> => {
   // Only memoize GET requests
   if (req.method !== "GET") return next();
 
@@ -30,7 +30,6 @@ export const redisMemoMiddleware = async (
   try {
     const cached = await getCache(key);
     if (cached) {
-      console.log("cached", cached);
       return apiResponse.result(res, cached.data, httpStatusCodes.OK);
     }
 
@@ -42,7 +41,6 @@ export const redisMemoMiddleware = async (
       }
       return originalJson(body);
     };
-
     next();
   } catch (error) {
     return apiResponse.error(

@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 import { AppDataSource } from "../ormconfig";
 import logger from "../src/config/logger";
 import app from "../src/config/express";
+import { initRedis } from "./config/redisClient";
 dotenv.config();
 
 async function startServer() {
@@ -37,6 +38,9 @@ async function startServer() {
     // ✅ Initialize the database BEFORE GraphQL Server starts
     logger.info("Connecting to database...");
     await AppDataSource.initialize();
+    initRedis().then(() => {
+      console.log("Redis initialized");
+    });
     logger.info("✅ Database connected successfully");
 
     // ✅ Start Express Server

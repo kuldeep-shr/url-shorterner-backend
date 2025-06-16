@@ -7,9 +7,9 @@ const getAnalytics: IController = async (req, res) => {
   try {
     const { code } = req.params;
     const analytics = await getAnalyticsData(code);
-    return apiResponse.result(res, analytics, httpStatusCodes.OK);
+    apiResponse.result(res, analytics, httpStatusCodes.OK);
   } catch (error: any) {
-    return apiResponse.error(
+    apiResponse.error(
       res,
       httpStatusCodes.BAD_GATEWAY,
       error.message || "Something went wrong"

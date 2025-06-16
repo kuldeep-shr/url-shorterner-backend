@@ -20,8 +20,7 @@ export default class ApiResponse {
     status: number = 200,
     message?: string
   ) => {
-    res.status(status);
-    res.json({
+    return res.status(status).json({
       data,
       success: true,
       message,
@@ -33,7 +32,7 @@ export default class ApiResponse {
     status: number = 400,
     error: string = httpStatusCodes.getStatusText(status)
   ) => {
-    res.status(status).json({
+    return res.status(status).json({
       error: {
         message: error,
       },
@@ -42,11 +41,11 @@ export default class ApiResponse {
   };
 
   static setCookie = (res: Response, key: string, value: string) => {
-    res.cookie(key, value);
+    return res.cookie(key, value);
   };
 
-  static redirect = (res: Response, url: string, status: number = 302) => {
-    res.redirect(status, url);
+  static redirect = (res: Response, url: string, status: number = 301) => {
+    return res.redirect(status, url);
   };
   static render = (
     res: Response,
@@ -54,6 +53,6 @@ export default class ApiResponse {
     params?: object,
     status: number = 200
   ) => {
-    res.status(status).render(view, params);
+    return res.status(status).render(view, params);
   };
 }
