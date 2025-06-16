@@ -1,11 +1,30 @@
-import Redis from "ioredis";
+import { createClient } from "redis";
 
-const redisClient = new Redis();
+const redisClient = createClient();
+
+redisClient.on("error", (err) => {
+  console.error("❌ Redis Client Error", err);
+});
+
+export const initRedis = async () => {
+  try {
+    if (!redisClient.isOpen) {
+      await redisClient.connect();
+      console.log("✅ Redis connected");
+    }
+  } catch (error) {
+    console.error("❌ Redis connection failed:", error);
+  }
+};
 
 export const getCache = async (key: string): Promise<any | null> => {
-  const data: any = await redisClient.get(key);
-  console.log("da", data);
-  return data ? JSON.parse(data) : null;
+  try {
+    const data = await redisClient.get(key);
+    return data ? JSON.parse(data) : null;
+  } catch (error) {
+    console.error("🔍 Redis GET error:", error);
+    return null;
+  }
 };
 
 export const setCache = async (
@@ -13,5 +32,11 @@ export const setCache = async (
   value: any,
   ttlSeconds = 60
 ): Promise<void> => {
-  await redisClient.set(key, JSON.stringify(value), "EX", ttlSeconds);
+  try {
+    await redisClient.setEx(key, ttlSeconds, JSON.stringify(value));
+  } catch (error) {
+    console.error("❌ Redis SET error:", error);
+  }
 };
+
+export default redisClient;

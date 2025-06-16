@@ -5,39 +5,6 @@ import { User } from "../../entities/user/User";
 import { ShortUrl } from "../../entities/url/ShortUrl";
 import { UrlAccessLog } from "../../entities/url/UrlAccessLog";
 
-// const renderAdminDashboard: IController = async (req, res) => {
-//   try {
-//     console.log("inside renn");
-//     //     const [statsRes, topUrlsRes] = await Promise.all([
-//     //       axios.get("http://localhost:8080/api/v1/admin/stats"),
-//     //       axios.get("http://localhost:8080/api/v1/admin/top-urls"),
-//     //     ]);
-
-//     //     return apiResponse.render(res, "admin/dashboard", {
-//     //       stats: statsRes.data,
-//     //       topUrls: topUrlsRes.data,
-//     //       error: null,
-//     return res.render("dashboard");
-//     //     });
-//   } catch (err: any) {
-//     console.error("❌ Admin dashboard API error:", {
-//       message: err?.message,
-//       stack: err?.stack,
-//       response: err?.response?.data,
-//     });
-//     //   return apiResponse.render(
-//     //     res,
-//     //     "dashboard",
-//     //     {
-//     //       stats: null,
-//     //       topUrls: [],
-//     //       error: "Unable to fetch dashboard data.",
-//     //     },
-//     //     500
-//     //   );
-//   }
-// };
-
 const renderAdminDashboard: IController = async (req, res) => {
   try {
     // Fetch total users
@@ -100,7 +67,7 @@ const renderAdminDashboard: IController = async (req, res) => {
     }));
 
     // 🧠 Send to EJS view
-    return apiResponse.render(res, "admin/dashboard", {
+    apiResponse.render(res, "admin/dashboard", {
       stats: {
         users: totalUsers,
         urls: totalUrls,
@@ -112,8 +79,7 @@ const renderAdminDashboard: IController = async (req, res) => {
       error: null,
     });
   } catch (err: any) {
-    console.error("❌ Dashboard error:", err);
-    return apiResponse.render(
+    apiResponse.render(
       res,
       "admin/dashboard",
       {
