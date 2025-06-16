@@ -146,7 +146,7 @@ yarn start
 
 ## 🧪 Postman Collection
 
-Soon, I'll share the button which redirect to you on the postman
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/30468072-686ea2ac-4690-4e0a-9753-e271e3b83d83?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D30468072-686ea2ac-4690-4e0a-9753-e271e3b83d83%26entityType%3Dcollection%26workspaceId%3D23332451-5340-436e-84ab-8730f0cfa214)
 
 ## ✅ TODO
 
@@ -165,12 +165,6 @@ Soon, I'll share the button which redirect to you on the postman
 
 ✅ = Completed
 ⬜ = Pending
-
-<br />
-
-## For API Collection, hit this button
-
-[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/30468072-686ea2ac-4690-4e0a-9753-e271e3b83d83?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D30468072-686ea2ac-4690-4e0a-9753-e271e3b83d83%26entityType%3Dcollection%26workspaceId%3D23332451-5340-436e-84ab-8730f0cfa214)
 
 <br />
 
