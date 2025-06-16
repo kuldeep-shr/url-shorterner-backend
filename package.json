@@ -23,12 +23,12 @@
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "pretest": "yarn init-db && yarn generate-keys",
-    "test": "jest",
+    "test": "jest --runInBand --detectOpenHandles --forceExit",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "init-db": "ts-node src/scripts/init-db.ts",
-    "generate-keys": "ts-node src/scripts/generateKeys.ts"
+    "generate-keys": "ts-node src/scripts/generateKeys.ts",
+    "truncate-db": "ts-node src/scripts/truncate-db.ts"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
@@ -39,7 +39,6 @@
     "jest": "^30.0.0",
     "supertest": "^7.1.1",
     "ts-jest": "^29.4.0",
-    "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.3"
   }
