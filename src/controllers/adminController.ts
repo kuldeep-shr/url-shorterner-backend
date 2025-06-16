@@ -1,5 +1,4 @@
 import IController from "../../types/IController";
-import axios from "axios";
 import { AppDataSource } from "../../ormconfig";
 import apiResponse from "../utilities/apiResponse";
 import { User } from "../../entities/user/User";
