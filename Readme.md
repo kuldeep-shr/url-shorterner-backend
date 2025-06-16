@@ -156,9 +156,9 @@ Soon, I'll share the button which redirect to you on the postman
   <li>✅ Custom alias support for short codes</li>
   <li>✅ Add Rate Limiting for prevent the attacks and for both users authenticated and anonymous</li>
   <li>✅ Redis-based caching for faster redirects</li>
-  <li>⬜ Docker setup</li>
+  <li>✅ Docker setup</li>
+  <li>✅ Test cases</li>
   <li>⬜ GitHub Action for CI/CD setup</li>
-  <li>⬜ Test cases</li>
 </ul>
 
 ✅ = Completed
