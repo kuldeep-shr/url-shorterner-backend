@@ -104,6 +104,7 @@ Create a `.env` file in the root directory and add the following variables:
 ## 🚀 Getting Started
 
 ```
+clone the repository
 yarn install
 yarn watch-ts
 ```
@@ -154,8 +155,9 @@ Soon, I'll share the button which redirect to you on the postman
   <li>✅ Click analytics (track total hits)</li>
   <li>✅ Custom alias support for short codes</li>
   <li>✅ Add Rate Limiting for prevent the attacks and for both users authenticated and anonymous</li>
-  <li>⬜ Redis-based caching for faster redirects</li>
+  <li>✅ Redis-based caching for faster redirects</li>
   <li>⬜ Docker setup</li>
+  <li>⬜ GitHub Action for CI/CD setup</li>
   <li>⬜ Test cases</li>
 </ul>
 
