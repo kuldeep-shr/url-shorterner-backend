@@ -4,7 +4,7 @@ import { Request } from "express";
 // Rate limiter: 10 requests per 1 minute per user/UUID/IP
 export const rateLimiter = rateLimit({
   windowMs: 60 * 1000, // 1 minute
-  max: 2,
+  max: 10,
   standardHeaders: true,
   legacyHeaders: false,
   message: {

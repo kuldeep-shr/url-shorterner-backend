@@ -2,6 +2,7 @@ import express from "express";
 
 import { authenticateToken } from "../../middlewares/authenticate";
 import { rateLimiter } from "../../middlewares/rateLimiter";
+import { redisMemoMiddleware } from "../../middlewares/cacheMiddleware";
 
 import urlController from "../../controllers/url.controller";
 import redirectUrlController from "../../controllers/redirect.controller";
@@ -20,12 +21,14 @@ router.post(
 
 router.get(
   "/:code",
+  redisMemoMiddleware,
   authenticateToken,
   rateLimiter,
   redirectUrlController.redirectToOriginal
 );
 router.get(
   "/analytics/:code",
+  redisMemoMiddleware,
   authenticateToken,
   rateLimiter,
   analyticsUrlController.getAnalytics
