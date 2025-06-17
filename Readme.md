@@ -131,6 +131,12 @@ yarn start
 yarn test
 ```
 
+## 🧑‍💼 Admin Dashboard
+
+`call /admin/dashboard`
+
+![alt text](image.png)
+
 ## 🔌 Available APIs
 
     🔌 For Available APIs
@@ -166,6 +172,7 @@ yarn test
   <li>✅ Add Rate Limiting for prevent the attacks and for both users authenticated and anonymous</li>
   <li>✅ Redis-based caching for faster redirects</li>
   <li>✅ Docker setup</li>
+  <li>✅ Admin Dashboard</li>
   <li>✅ Test cases</li>
   <li>⬜ GitHub Action for CI/CD setup</li>
 </ul>
