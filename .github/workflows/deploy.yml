@@ -1,0 +1,55 @@
+name: 🚀 Build, Test & Deploy Project with Neon + Redis + Docker
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+
+    services:
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+
+    env:
+      PORT: ${{ secrets.PORT }}
+      NODE_ENV: ${{ secrets.NODE_ENV }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      REDIS_PORT: ${{ secrets.REDIS_PORT }}
+      REDIS_URL: ${{ secrets.REDIS_URL }}
+
+    steps:
+      - name: 📂 Checkout Code
+        uses: actions/checkout@v3
+
+      - name: 🔀 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: yarn
+
+      - name: 📦 Install Dependencies
+        run: yarn install
+
+      - name: ⚙️ Init DB Schema
+        run: yarn init-db
+
+      - name: 🔑 Generate Keys
+        run: yarn generate-keys
+
+      - name: ✅ Run Tests
+        run: yarn test
+
+      - name: 🚧 Build Project
+        run: yarn build
+
+      - name: 🛠️ Docker Build (Optional)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: ${{ secrets.DOCKER_USERNAME }}/url-shortener:latest
