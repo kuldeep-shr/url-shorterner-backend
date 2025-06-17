@@ -4,9 +4,13 @@ import httpstatuscodes from "http-status-codes";
 
 const WINDOW_SECONDS = 60;
 
+/**
+ @authenticated allow 10 requests in 1 minute of interval
+ @anonymous allow 5 requests in 1 minute of interval
+ */
 const RATE_LIMITS = {
-  authenticated: 2,
-  anonymous: 1,
+  authenticated: 10,
+  anonymous: 5,
 };
 
 export const customRateLimiter = async (
@@ -15,7 +19,6 @@ export const customRateLimiter = async (
   next: NextFunction
 ): Promise<any> => {
   try {
-    console.log("middle-3");
     const userId = (req as any).user?.id;
     const identifier = userId ? `user:${userId}` : `ip:${req.ip}`;
     console.log("Rate limiter identifier:", identifier);
