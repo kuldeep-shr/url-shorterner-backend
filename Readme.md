@@ -144,8 +144,8 @@ yarn test
 
     | Method | Endpoint                | Description                    |
     |--------|-------------------------|--------------------------------|
-    | POST   | `/api/v1/auth/register` | Register a new user & token    |
-    | POST   | `/api/v1/auth/login`    | Login & get JWT token          |
+    | POST   | `/api/user/auth/register` | Register a new user & token    |
+    | POST   | `/api/user/auth/login`    | Login & get JWT token          |
 
     ✂️ URL Shortening
 
