@@ -174,7 +174,7 @@ yarn test
   <li>✅ Docker setup</li>
   <li>✅ Admin Dashboard</li>
   <li>✅ Test cases</li>
-  <li>⬜ GitHub Action for CI/CD setup</li>
+  <li>✅ GitHub Action for CI/CD setup</li>
 </ul>
 
 ✅ = Completed
