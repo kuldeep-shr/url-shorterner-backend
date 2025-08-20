@@ -1,24 +1,29 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, Unique, OneToMany } from "typeorm";
 import { DateTimeEntity } from "../base/timestamp";
+import { Prompt } from "../prompt/Prompt";
 
-@Entity("user_auth", { orderBy: { id: "ASC" } })
+@Entity("users", { orderBy: { id: "ASC" } })
+@Unique(["email"])
 export class User extends DateTimeEntity {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @Column()
-  @Unique(["email"])
+  @Column({ type: "varchar", length: 150 })
   email!: string;
 
-  @Column()
+  @Column({ type: "varchar", length: 100 })
   name!: string;
 
-  @Column()
+  @Column({ type: "varchar", length: 200 })
   password!: string;
 
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  lastLogin!: string;
+  lastLogin!: Date;
 
   @Column({ default: true })
   isActive!: boolean;
+
+  // RELATION → one user can create many prompts
+  @OneToMany(() => Prompt, (prompt) => prompt.created_by)
+  prompts!: Prompt[];
 }
